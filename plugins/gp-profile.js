@@ -1,0 +1,55 @@
+import { createHash } from 'crypto'
+import PhoneNumber from 'awesome-phonenumber'
+import { canLevelUp, xpRange } from '../lib/levelling.js'
+//import db from '../lib/database.js'
+
+let handler = async (m, { conn, usedPrefix, command}) => {
+
+let who = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
+if (!(who in global.db.data.users)) throw `✳️ Pengguna tidak ada di database saya`
+let pp = await conn.profilePictureUrl(who, 'image').catch(_ => './src/avatar_contact.png')
+let user = global.db.data.users[who]
+let { name, exp, diamond, lastclaim, registered, regTime, age, level, role, warn, klan } = global.db.data.users[who]
+let { min, xp, max } = xpRange(user.level, global.multiplier)
+let username = conn.getName(who)
+let math = max - xp
+let prem = global.prems.includes(who.split`@`[0])
+let sn = createHash('md5').update(who).digest('hex')
+
+let str = `
+┌───「 *BIODATA* 」
+➥ *Nama:* ${registered ? '\n   • ' + name + ' ': ''} 
+   • @${who.replace(/@.+/, '')}
+➥ *Nomor:* wa.me/${who.split`@`[0]}${registered ? '\n➥ *Umur*: ' + age + ' tahun' : ''}
+➥ *Peringatan:* ${warn}/${maxwarn}
+➥ *Saldo:* ${diamond}
+➥ *𝐘𝐩𝐚𝐲:* ${user.money}
+➥ *Squad:* ⚔️ ${klan} 🛡
+➥ *Atm:* ${user.atm > 0 ? 'Level ' + user.atm : '✖️'}
+➥ *Bank:* ${user.bank} 💲 / ${user.fullatm} 💲
+➥ *Level:* ${level}
+➥ *XP:* ${exp}
+➥ *Role:* ${role}
+➥ *Reg:* ${sn}
+➥ *Register:* ${registered ? '⭕': '❌'}
+➥ *Premium:* ${prem ? 'Pewaris' : 'Perintis'}
+└──────────────`
+await m.reply(`*Sedang Mengecek Profile*`)
+    conn.sendMessage(m.chat, {
+text: str,
+contextInfo: {
+externalAdReply: {
+title: 'Profile',
+thumbnailUrl: pp,
+sourceUrl: 'https://instagram.com/boru.to4484',
+mediaType: 1,
+renderLargerThumbnail: true
+}}})
+    m.react(done)
+
+}
+handler.help = ['perfil']
+handler.tags = ['group']
+handler.command = ['profile', 'perfil', 'me'] 
+
+export default handler

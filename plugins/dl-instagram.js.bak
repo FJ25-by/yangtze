@@ -1,0 +1,16 @@
+const fetch = require("node-fetch");
+
+var handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) throw `Masukkan URL!\n\nContoh: ${usedPrefix + command}`
+  let dann = await fetch(`https://api.lolhuman.xyz/api/instagram?apikey=4c21e6a4d7659606e802d57a&url=${text}`)
+  let res = await dann.json()
+  conn.sendFile(m.chat, res.result, 'ig.mp4', 'Nih kak', m)
+}
+
+handler.help = ['ig','igdl']
+handler.tags = ['downloader']
+handler.command = /^(igdl)$/i
+handler.register = false
+handler.limit = true
+
+module.exports = handler

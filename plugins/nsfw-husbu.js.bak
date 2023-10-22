@@ -1,0 +1,13 @@
+let handler = async (m, { conn, args }) => {
+await m.react('😲')
+  let res = `https://api.caliph.biz.id/api/husbu?apikey=7WEWUL4z`
+  conn.sendFile(m.chat, res, 'husbu.jpg', `Najis Husbu Gepeng`, m, false)
+  m.react('😳')
+}
+handler.help = ['husbu']
+handler.tags = ['nsfw']
+handler.command = /^(hubu)$/i
+handler.limit = true
+handler.premium = false
+
+export default handler

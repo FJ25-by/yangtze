@@ -1,0 +1,15 @@
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) throw `Masukkan URL!\n\nContoh: ${usedPrefix + command}`
+  let dann = await fetch(`https://api.lolhuman.xyz/api/tiktokmusic?apikey=4c21e6a4d7659606e802d57a&url=${text}`)
+  let res = await dann.json()
+  conn.sendFile(m.chat, res.result, 'tt.mp3', 'Nih kak', m)
+}
+
+handler.help = ['ttmp3']
+handler.tags = ['downloader']
+handler.command = /^(ttmp3)$/i
+handler.register = false
+handler.limit = true
+handler.level = 3
+
+export default handler

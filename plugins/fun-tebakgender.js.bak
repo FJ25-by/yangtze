@@ -1,0 +1,18 @@
+import axios from 'axios'
+let handler = async(m, { conn, text }) => {
+if (!text) throw `Masukan link foto orangnya`
+  await m.reply('Searching...')
+	axios.get(`https://xzn.wtf/api/gender-detection?url=${text}&apikey=yangtze`).then ((res) => {
+	 	let hasil = `*Tittle :${res.gender.value}*`
+
+    conn.reply(m.chat, hasil, m)
+	})
+}
+handler.help = ['tebakgender']
+handler.tags = ['fun']
+handler.command = /^(tebakgender)$/i
+
+handler.exp = 0
+handler.limit = true
+
+export default handler

@@ -1,0 +1,27 @@
+import fetch from 'node-fetch';
+import { addWatermark } from '../lib/jimp.js';
+
+let handler = async (m, { conn, text }) => {
+  if (!text) throw `Silakan berikan url gambar.`
+
+  m.reply('_*Loading...*_\nⓘTolong jangan spam');  // menambahkan respon loading
+
+  let url = `https://api.caliph.biz.id/api/upscale?img=${text}&apikey=bnKKcR5p`
+
+  let res = await fetch(url, {
+    method: 'GET',
+  })
+
+  if (!res.ok) throw `Gagal Upscale, pastikan URL gambar sudah benar.`
+
+  // Add watermark
+  let bufferWithWatermark = await addWatermark(await res.buffer(), '© ZhinDev - BecoMD');
+
+  await conn.sendFile(m.chat, bufferWithWatermark, 'zdev.png', '*© Beco-MD*', m)
+}
+handler.command = /^(upscale|bhd|becohd)$/i
+handler.help = ['upscale <url>']
+handler.tags = ['tools', 'zdev']
+handler.limit = true
+
+export default handler

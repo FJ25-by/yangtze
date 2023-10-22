@@ -1,0 +1,14 @@
+import fetch from 'node-fetch'
+
+let handler = async (m, { conn, command }) => {
+	let url = 'https://api.betabotz.org/api/asupan/euni?apikey=oVOwnKrk'
+		conn.sendFile(m.chat, url, null, 'YA GITU', m)
+	m.reply('_Sabar..._');
+		}
+handler.help = ['euni']
+handler.tags = ['asupan']
+handler.command = /^(euni)$/i
+
+handler.diamond = true
+
+export default handler

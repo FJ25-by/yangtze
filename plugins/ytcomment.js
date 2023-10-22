@@ -1,0 +1,17 @@
+import fetch from 'node-fetch'
+let handler = async (m, { conn, args }) => {
+   let response = args.join(' ').split('|')
+  if (!args[0]) throw 'ᴍᴀꜱᴜᴋᴋᴀɴ ᴛᴇxᴛ\nContoh: .ytkom Halo|Yangtze\nExample: <commentar>|<name>'
+  await m.reply('sedang membuka yt')
+  await m.react('📱')
+  let res = `https://api.zahwazein.xyz/creator/ytcomment?url=https://i.ibb.co/KjSBWx4/Pics-Art-02-07-11-45-03.jpg&text=${response[0]}&text2=${response[1]}&apikey=zenzkey_59f5aaa3b6`
+  conn.sendFile(m.chat, res, 'ytcomment.jpg', `Dah komen nih`, m, false)
+  m.react('✅')
+}
+handler.help = ['ytkomen','ytcomment','ytkom'].map(v => v + ' <text>')
+handler.tags = ['logo','maker','yangtze']
+handler.command = /^(ytkom|ytkomen|ytcomment)$/i
+handler.limit = true
+handler.premium = false
+
+export default handler

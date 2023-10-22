@@ -1,0 +1,14 @@
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) throw `Masukkan URL!\n\nContoh: ${usedPrefix + command}`
+  let dann = await fetch(`https://api.lolhuman.xyz/api/instagram?apikey=9fa7da5bc961401da3f459f5&url=${text}`)
+  let res = await dann.json()
+  conn.sendFile(m.chat, res.result, 'ig.mp4', 'Nih kak', m)
+}
+
+handler.help = ['ig']
+handler.tags = ['downloader']
+handler.command = /^(ig(dl)?)$/i
+handler.register = true
+handler.limit = true
+
+export default handler

@@ -1,0 +1,16 @@
+let handler = async (m, { conn,  text, usedPrefix, command }) => {
+	if (!text) throw `Masukkan Query!\nContoh: ${usedPrefix + command} spotify`
+	let dann = await fetch(`https://xzn.wtf/api/oploverz?&search=${text}&apikey=nekopoi`)
+	let res = await dann.json()
+    let hasil = res.data((v, i) => `Name: ${v.title}\nLink: ${v.link}\nType: ${v.type}`).join('\n')
+    let v = res.data
+	await conn.sendFile(m.chat, res.result[0].icon, 'happy.jpg', `${hasil}`, m)
+}
+handler.help = ['animesearch','search'].map(v => v + ' <query>')
+handler.tags = ['anime']
+
+handler.command = /^(animesearch|search)$/i
+handler.premium = false
+handler.level = 0
+
+export default handler

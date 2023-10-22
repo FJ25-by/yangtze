@@ -1,0 +1,14 @@
+import fetch from 'node-fetch'
+
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+	if (!text) throw `Masukkan Url!\n\nContoh: ${usedPrefix + command} https://files.catbox.moe/eo67sc`
+	let dann = await fetch(`https://api.lolhuman.xyz/api/musicsearch?apikey=e54205a4ca2caa368cc067bb&file=${text}`)
+	let res = await dann.json()
+	let hasil = `Judul: ${res.result.title}\nAlbum: ${res.result.album}\nArtis: ${res.result.artists}\nDurasi: ${res.result.duration}\nRilis: ${res.result.release}\nGenre: ${res.result.genres}`
+	await conn.sendFile(m.chat,  hasil, wm, null, m)
+}
+handler.help = ['musik']
+handler.tags = ['audio', 'internet']
+handler.command = /^(musik|music)$/i
+
+export default handler

@@ -1,0 +1,17 @@
+import fetch from 'node-fetch'
+let handler = async(m, { conn, usedPrefix, text, args, command }) => {
+if (!text) throw `Contoh:\n${usedPrefix + command} lisaamelia09_`
+let f = await fetch(`https://api.zacros.my.id/info/ytstalk?username=${text}`)
+let x = await f.json()
+let cap = `${htki} Info Detail YT ${htka}
+Url : ${x.result.url}
+Name : ${x.result.name}
+Subscriber : ${x.result.subCount}
+`
+conn.sendFile(m.chat, x.result.thumbnail, 'stalk.jpg', `${cap}`, m)
+  }
+handler.help = ['ytstalk|stalkyt'].map(v => v + ' <username>')
+handler.tags = ['internet','tools']
+handler.command = /^(stalkyt|ytstalk)$/i
+
+export default handler

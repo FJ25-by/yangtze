@@ -1,0 +1,103 @@
+let handler = async (m, { conn, text }) => {
+  if (!text) {
+    throw '*_Salah!_*\nEx: *fakedoc document --size(100MB) --apk*\n\n*_Opsi:_*\n--apk\n--png\n--jpg\n--mp4\n--mp3\n--bin\n--doc\n--pdf\n--zip';
+  }
+
+  let [docName, size, fileType] = text.trim().split(/\s+--size\(|\)\s+--/);
+  if (!docName || !size || !fileType) {
+    throw '*_Salah!_*\nEx: *fakedoc document --size(100MB) --apk*\n\n*_Opsi:_*\n--apk\n--png\n--jpg\n--mp4\n--mp3\n--bin\n--doc\n--pdf\n--zip';
+  }
+
+  let sizeRegex = /^(\d+)([KMGT]B)$/i;
+  if (!sizeRegex.test(size)) {
+    throw 'Ukuran file tidak valid.\nContoh: *fakedoc document --size(100MB) --apk*';
+  }
+
+  let [, fileSize, unit] = sizeRegex.exec(size);
+  fileSize = parseInt(fileSize);
+
+  let byteSize = 0;
+  switch (unit) {
+    case 'KB':
+      byteSize = fileSize * 1024;
+      break;
+    case 'MB':
+      byteSize = fileSize * 1024 * 1024;
+      break;
+    case 'GB':
+      byteSize = fileSize * 1024 * 1024 * 1024;
+      break;
+    case 'TB':
+      byteSize = fileSize * 1024 * 1024 * 1024 * 1024;
+      break;
+    case 'kb':
+      byteSize = fileSize * 1024;
+      break;
+    case 'mb':
+      byteSize = fileSize * 1024 * 1024;
+      break;
+    case 'gb':
+      byteSize = fileSize * 1024 * 1024 * 1024;
+      break;
+    case 'tb':
+      byteSize = fileSize * 1024 * 1024 * 1024 * 1024;
+      break;
+    default:
+      throw 'Ukuran file tidak valid.';
+  }
+
+  let mime;
+  switch (fileType) {
+    case 'apk':
+      mime = 'application/vnd.android.package-archive';
+      break;
+    case 'apks':
+      mime = 'application/octet-stream';
+      break;
+    case 'png':
+      mime = 'image/png';
+      break;
+    case 'jpg':
+      mime = 'image/jpeg';
+      break;
+    case 'mp4':
+      mime = 'video/mp4';
+      break;
+    case 'mp3':
+      mime = 'audio/mpeg';
+      break;
+    case 'bin':
+      mime = 'application/octet-stream';
+      break;
+    case 'doc':
+      mime = 'application/msword';
+      break;
+    case 'pdf':
+      mime = 'application/pdf';
+      break;
+    case 'zip':
+      mime = 'application/zip';
+      break;
+    default:
+      throw 'Tipe file tidak valid.';
+  }
+
+  if (byteSize > 100 * 1024 * 1024) { // 100MB in bytes
+    throw 'Ukuran file palsu terlalu besar. Maksimal adalah 100MB.';
+  }
+
+  m.reply('_Sedang memproses..._');
+
+  try {
+    let buffer = Buffer.alloc(byteSize);
+    conn.sendFile(m.chat, buffer, docName, '© FJ', m, false, { mimetype: mime });
+  } catch (e) {
+    throw 'Opps!! Ada yang error.';
+  }
+};
+
+handler.help = ['fakedoc <docname> --size(ukuranfakefile) <type>', '--apk', '--apks', '--png', '--jpg', '--mp4', '--mp3', '--bin', '--doc', '--pdf', '--zip'];
+handler.tags = ['tools'];
+handler.command = /^(fakedoc)$/i;
+
+export default handler;

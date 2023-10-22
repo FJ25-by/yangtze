@@ -1,0 +1,36 @@
+import fetch from 'node-fetch'
+import fs from 'fs'
+let handler = async(m, { conn, usedPrefix, text, args, command }) => {
+if (!text) throw `Contoh:\n${usedPrefix + command} https://vm.tiktok.com/ZSLKKdrgt/`
+let f = await fetch(`https://xzn.wtf/api/tiktok?url=${text}&apikey=DapaUi`)
+let x = await f.json()
+let cap = `${htki} Tiktok ${htka}
+${x.data.title}\n
+Durasi: ${x.data.duration}s
+`
+let cup = `Title Sound: ${x.data.music_info.title}\nPicture: ${x.data.music_info.cover}`
+let audio = `${x.data.music}`
+global.fkontak = { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(m.chat ? { remoteJid: `status@broadcast` } : {}) }, message: { 'contactMessage': { 'displayName': wm, 'vcard': `BEGIN:VCARD\nVERSION:3.0\nN:XL;${wm},;;;\nFN:${wm},\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabell:Ponsel\nEND:VCARD`, 'jpegThumbnail': fs.readFileSync('./thumbnail.jpg'), thumbnail: fs.readFileSync('./thumbnail.jpg'),sendEphemeral: true}}}
+await conn.sendFile(m.chat, x.data.play, 'stalk.mp4', `${cap}`, m)
+
+conn.sendFile(m.chat, audio, 'error.mp3', null, fkontak, true, {
+type: 'audioMessage', 
+ptt: false, seconds: 0,contextInfo: {
+         externalAdReply: { showAdAttribution: true,
+ mediaUrl: 'www.instagram.com/boru.to4484',
+    mediaType: 2, 
+    description: 'www.instagram.com/boru.to4484',
+    title: `${x.data.music_info.title}`,
+    body: wm,
+    thumbnail: `${x.data.music_info.cover}`,
+    sourceUrl: 'www.instagram.com/boru.to4484'
+}
+     }
+    })
+m.react('✅')
+  }
+handler.help = ['dttnowm','dtt'].map(v => v + ' <link>')
+handler.tags = ['downloader']
+handler.command = /^(dttnowm|dtt)$/i
+
+export default handler

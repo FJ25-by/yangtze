@@ -1,0 +1,34 @@
+import fetch from 'node-fetch';
+
+const handler = async (m, { conn, text, args }) => {
+let tol = args.join(' ').split('.')
+if (!args[0]) throw `.intro fj 18 singapore coding gaada`
+  try {
+    const name = conn.getName(m.sender);
+    const age = '18';
+    const address = 'Indonesia';
+    const hobby = 'Coding';
+    const partner = 'Single';
+
+    const introText = `✨🌟 *${name}'s Introduction* 🌟✨\n\n`
+      + `*Name:* ${tol[0]}\n`
+      + `*Age/Usia:* ${tol[1]}\n`
+      + `*Address/Alamat:* ${tol[2]}\n`
+      + `*Hobby:* ${tol[3]}\n`
+      + `*Pacar:* ${tol[4]}\n`;
+
+    const wibuApiUrl = hwaifu.getRandom()
+    const thumbnail = await (await fetch(wibuApiUrl)).buffer();
+
+    conn.sendFile(m.chat, thumbnail, 'intro.jpg', introText, m);
+  } catch (err) {
+    console.log(err);
+    conn.reply(m.chat, 'Error!', m);
+  }
+};
+
+handler.command = /^(name)$/i;
+handler.tags = ['main']
+handler.help = ['name']
+
+export default handler;

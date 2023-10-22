@@ -1,0 +1,15 @@
+import fetch from 'node-fetch'
+let handler = async (m, { conn, args }) => {
+   let response = args.join(' ').split('|')
+  if (!args[0]) throw 'ᴍᴀꜱᴜᴋᴋᴀɴ ᴛᴇxᴛ'
+  m.reply('ᴘʀᴏꜱᴇꜱ...')
+  let res = `https://api.anna.biz.id/api/textpro/glitch2?text=${response[0]}&text2=${response[0]}`
+  conn.sendFile(m.chat, res, 'glitch2.jpg', `ꜱᴜᴅᴀʜ ᴊᴀᴅɪ`, m, false)
+}
+handler.help = ['glitch'].map(v => v + ' <text>')
+handler.tags = ['logo','maker']
+handler.command = /^(glitch)$/i
+handler.limit = true
+handler.premium = true
+
+export default handler

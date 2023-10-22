@@ -1,0 +1,9 @@
+let handler = async (m, { conn }) => {
+conn.reply(m.chat, dygp, m)
+m.react('🤙') 
+}
+handler.help = ['gcbot']
+handler.tags = ['main']
+handler.command = /^(gcbot)$/i
+
+export default handler

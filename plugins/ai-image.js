@@ -1,0 +1,23 @@
+import { Configuration, OpenAIApi } from 'openai'
+import fetch from 'node-fetch'
+import { generateWAMessageFromContent } from '@adiwajshing/baileys'
+import fs from 'fs'
+
+let handler = async (m, { conn, text }) => {
+            if (!text) return m.reply(`Membuat gambar dari AI.\n\nContoh:\n.imgai Wooden house on snow mountain`);
+            const configuration = new Configuration({
+              apiKey: "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",
+            });
+            const openai = new OpenAIApi(configuration);
+            const response = await openai.createImage({
+              prompt: text,
+              n: 1,
+              size: "512x512",
+            });
+            console.log(response.data.data[0].url)
+            conn.sendFile(m.chat, response.data.data[0].url, text);
+            }
+handler.help = ['imageai']
+handler.tags = ['fun']
+handler.command = /^(imgai|imageai)$/i
+export default handler

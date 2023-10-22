@@ -1,0 +1,14 @@
+import fetch from 'node-fetch'
+
+let handler = async (m, { conn, command }) => {
+	let url = 'https://api-fgmods.xyz/api/img/loli?apikey=U7VzYeYd'
+		conn.sendFile(m.chat, url, null, 'AWAS FBI-_-!', m)
+	m.reply('_Sabar pedo..._');
+		}
+handler.help = ['animeloli']
+handler.tags = ['anime']
+handler.command = /^(animeloli|loli)$/i
+
+handler.limit = true
+
+export default handler
